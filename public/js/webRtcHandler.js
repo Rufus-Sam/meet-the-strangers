@@ -35,10 +35,20 @@ export const handlePreOffer = (data) => {
 
 export const acceptCallHandler = () => {
     console.log('call-accepted')
+    sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED)
 }
 export const rejectCallHandler = () => {
     console.log('call-rejected')
+    sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED)
 }
 export const callingDialogRejectCallHandler = () => {
     console.log('cancel the call')
+}
+
+const sendPreOfferAnswer = (preOfferAnswer) => {
+    const data = {
+        callerSocketId: connectedUserDetails.socketId,
+        preOfferAnswer
+    }
+    wss.sendPreOfferAnswer(data)
 }

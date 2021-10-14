@@ -26,3 +26,7 @@ export const sendPreOffer = (data) => {
     socketIO.emit('pre-offer', data)
 }
 
+export const sendPreOfferAnswer = (data) => {
+    console.log('send preoffer answer')
+    socketIO.emit('pre-offer-answer', data)
+}
