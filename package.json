@@ -1,0 +1,26 @@
+{
+  "name": "meet-the-strangers",
+  "version": "1.0.0",
+  "description": "Webrtc,socket.io learning",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rufus-Sam/meet-the-strangers.git"
+  },
+  "author": "Rufus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rufus-Sam/meet-the-strangers/issues"
+  },
+  "homepage": "https://github.com/Rufus-Sam/meet-the-strangers#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
+  }
+}
