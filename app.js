@@ -36,7 +36,10 @@ io.on('connection', (socket) => {
     })
     socket.on('pre-offer-answer', (data) => {
         console.log('pre offer answer came to server')
-        console.log(data)
+        const connectedPeer = connectedPeers.find((peerSocketId) => data.callerSocketId === peerSocketId)
+        if (connectedPeer) {
+            io.to(data.callerSocketId).emit('pre-offer-answer', data)
+        }
     })
     socket.on('disconnect', () => {
         console.log("user disconnected")

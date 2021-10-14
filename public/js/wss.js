@@ -18,6 +18,10 @@ export const registerSocketEvents = (socket) => {
         console.log(data)
         webRtcHandler.handlePreOffer(data)
     })
+
+    socket.on('pre-offer-answer', (data) => {
+        webRtcHandler.handlePreOfferAnswer(data)
+    })
 }
 
 export const sendPreOffer = (data) => {

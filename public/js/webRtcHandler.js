@@ -33,6 +33,25 @@ export const handlePreOffer = (data) => {
     }
 }
 
+export const handlePreOfferAnswer = (data) => {
+    const { preOfferAnswer } = data
+    console.log('pre offer answer came back to caller (webrtc)')
+    ui.removeAllDialogs()
+
+    if (preOfferAnswer === constants.preOfferAnswer.CALLEE_NOT_FOUND) {
+        //show dialog that callee was not found
+    }
+    if (preOfferAnswer === constants.preOfferAnswer.CALL_UNAVAILABLE) {
+        //show dialog that callee is busy
+    }
+    if (preOfferAnswer === constants.preOfferAnswer.CALL_REJECTED) {
+        //show dialog that callee rejecte the call
+    }
+    if (preOfferAnswer === constants.preOfferAnswer.CALL_ACCEPTED) {
+        //send webRtc offer
+    }
+}
+
 export const acceptCallHandler = () => {
     console.log('call-accepted')
     sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED)
@@ -50,5 +69,6 @@ const sendPreOfferAnswer = (preOfferAnswer) => {
         callerSocketId: connectedUserDetails.socketId,
         preOfferAnswer
     }
+    ui.removeAllDialogs()
     wss.sendPreOfferAnswer(data)
 }
