@@ -21,6 +21,9 @@ io.on('connection', (socket) => {
     connectedPeers.push(socket.id);
     console.log(connectedPeers)
 
+    socket.on('pre-offer', ({ callType, calleePersonalCode }) => {
+        console.log('pre-offer came to server')
+    })
     socket.on('disconnect', () => {
         console.log("user disconnected")
 
