@@ -1,10 +1,14 @@
 import * as store from './store.js'
-const socket = io("/")
+import * as wss from './wss.js'
 
-//this part is the client calling the server,the part in app.js is the server 
-// receiving the call
-socket.on('connect', () => {
-    console.log('successfully connected to wss/socket.io server')
-    console.log(socket.id)
-    store.setSocketId(socket.id);
+
+//initialization of socketIO connection
+const socket = io("/")
+wss.registerSocketEvents(socket)
+
+//register event for personal code copy button
+const personalCodeCopyButton = document.getElementById('personal_code_copy_button')
+personalCodeCopyButton.addEventListener('click', () => {
+    const personalCode = store.getState().socketId
+    navigator.clipboard && navigator.clipboard.writeText(personalCode)
 })
