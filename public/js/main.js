@@ -16,13 +16,16 @@ personalCodeCopyButton.addEventListener('click', () => {
 //register event listener - connection buttons
 const personalCodeChatButton = document.getElementById('personal_code_chat_button')
 const personalCodeVideoButton = document.getElementById('personal_code_video_button')
-const calleePersonalCode = document.getElementById('personal_code_input').value
+
 
 personalCodeChatButton.addEventListener('click', () => {
     const callType = constants.callType.CHAT_PERSONAL_CODE
+    const calleePersonalCode = document.getElementById('personal_code_input').value
     webRtcHandler.sendPreOffer(callType, calleePersonalCode)
+
 })
 personalCodeVideoButton.addEventListener('click', () => {
     const callType = constants.callType.VIDEO_PERSONAL_CODE
+    const calleePersonalCode = document.getElementById('personal_code_input').value
     webRtcHandler.sendPreOffer(callType, calleePersonalCode)
 })
