@@ -32,10 +32,18 @@ io.on('connection', (socket) => {
             }
             console.log("preoffer got by server")
             io.to(calleePersonalCode).emit('pre-offer', data)
+        } else {
+            const data = {
+                preOfferAnswer: 'CALLEE_NOT_FOUND',
+                callerSocketId: socket.id
+            }
+            io.to(socket.id).emit('pre-offer-answer', data)
         }
     })
     socket.on('pre-offer-answer', (data) => {
+
         console.log('pre offer answer came to server')
+        console.log(data)
         const connectedPeer = connectedPeers.find((peerSocketId) => data.callerSocketId === peerSocketId)
         if (connectedPeer) {
             io.to(data.callerSocketId).emit('pre-offer-answer', data)
