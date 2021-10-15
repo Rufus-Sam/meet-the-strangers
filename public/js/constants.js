@@ -11,3 +11,9 @@ export const preOfferAnswer = {
     CALL_REJECTED: 'CALL_REJECTED',
     CALL_UNAVAILABLE: 'CALL_UNAVAILABLE'
 }
+
+export const webRtcSignaling = {
+    OFFER: "OFFER",
+    ANSWER: "ANSWER",
+    ICE_CANDIDATE: "ICE_CANDIDATE",
+};

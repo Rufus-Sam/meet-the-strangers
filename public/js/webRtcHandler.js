@@ -115,21 +115,45 @@ export const handlePreOfferAnswer = (data) => {
         //show dialog that callee rejecte the call
     }
     if (preOfferAnswer === constants.preOfferAnswer.CALL_ACCEPTED) {
+        createPeerConnection()
         ui.showCallElements(connectedUserDetails.callType);
         //send webRtc offer
+        sendWebRtcOffer()
     }
 }
-
-export const acceptCallHandler = () => {
+const sendWebRtcOffer = async () => {
+    console.log('sending webRtc offer from caller side')
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+    wss.sendDataUsingWebRtcSignaling({
+        connectedUserSocketId: connectedUserDetails.socketId,
+        type: constants.webRtcSignaling.OFFER,
+        offer: offer,
+    });
+}
+export const handleWebRtcOffer = async (data) => {
+    console.log('webRtc offer came to callee')
+    console.log(data)
+    await peerConnection.setRemoteDescription(data.offer);
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    wss.sendDataUsingWebRtcSignaling({
+        connectedUserSocketId: connectedUserDetails.socketId,
+        type: constants.webRtcSignaling.ANSWER,
+        answer: answer,
+    });
+}
+const acceptCallHandler = () => {
     console.log('call-accepted')
+    createPeerConnection()
     sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED)
     ui.showCallElements(connectedUserDetails.callType);
 }
-export const rejectCallHandler = () => {
+const rejectCallHandler = () => {
     console.log('call-rejected')
     sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED)
 }
-export const callingDialogRejectCallHandler = () => {
+const callingDialogRejectCallHandler = () => {
     console.log('cancel the call')
 }
 

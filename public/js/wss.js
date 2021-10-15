@@ -1,5 +1,6 @@
 import * as store from './store.js'
 import * as ui from './ui.js'
+import * as constants from './constants.js'
 import * as webRtcHandler from './webRtcHandler.js'
 let socketIO = null;
 
@@ -22,6 +23,16 @@ export const registerSocketEvents = (socket) => {
     socket.on('pre-offer-answer', (data) => {
         webRtcHandler.handlePreOfferAnswer(data)
     })
+
+    socket.on('webRtc-signaling', (data) => {
+        switch (data.type) {
+            case constants.webRtcSignaling.OFFER:
+                webRtcHandler.handleWebRtcOffer(data)
+                break
+            default:
+                return
+        }
+    })
 }
 
 export const sendPreOffer = (data) => {
@@ -33,4 +44,9 @@ export const sendPreOffer = (data) => {
 export const sendPreOfferAnswer = (data) => {
     console.log('send preoffer answer')
     socketIO.emit('pre-offer-answer', data)
+}
+
+export const sendDataUsingWebRtcSignaling = (data) => {
+    console.log('webRtc signaling')
+    socketIO.emit('webRtc-signaling', data)
 }
