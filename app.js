@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
         );
 
         if (connectedPeer) {
-            console.log('webRtc offer sent from server to callee')
+            console.log('webRtc offer sent from server ')
             io.to(connectedUserSocketId).emit("webRtc-signaling", data);
         }
     })

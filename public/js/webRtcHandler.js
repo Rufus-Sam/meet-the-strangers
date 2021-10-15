@@ -121,9 +121,12 @@ export const handlePreOfferAnswer = (data) => {
         sendWebRtcOffer()
     }
 }
+
+// caller sends offer 
 const sendWebRtcOffer = async () => {
     console.log('sending webRtc offer from caller side')
     const offer = await peerConnection.createOffer();
+    //caller - local - offer 
     await peerConnection.setLocalDescription(offer);
     wss.sendDataUsingWebRtcSignaling({
         connectedUserSocketId: connectedUserDetails.socketId,
@@ -131,11 +134,14 @@ const sendWebRtcOffer = async () => {
         offer: offer,
     });
 }
+//callee receives offer
 export const handleWebRtcOffer = async (data) => {
     console.log('webRtc offer came to callee')
     console.log(data)
+    //callee - remote - offer 
     await peerConnection.setRemoteDescription(data.offer);
     const answer = await peerConnection.createAnswer();
+    //callee - local - answer 
     await peerConnection.setLocalDescription(answer);
     wss.sendDataUsingWebRtcSignaling({
         connectedUserSocketId: connectedUserDetails.socketId,
@@ -143,6 +149,12 @@ export const handleWebRtcOffer = async (data) => {
         answer: answer,
     });
 }
+//caller receives answer
+export const handleWebRtcAnswer = async (data) => {
+    console.log("webRTC Answer came back to caller");
+    //caller - remote - answer 
+    await peerConnection.setRemoteDescription(data.answer);
+};
 const acceptCallHandler = () => {
     console.log('call-accepted')
     createPeerConnection()

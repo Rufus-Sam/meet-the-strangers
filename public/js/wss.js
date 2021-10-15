@@ -29,6 +29,9 @@ export const registerSocketEvents = (socket) => {
             case constants.webRtcSignaling.OFFER:
                 webRtcHandler.handleWebRtcOffer(data)
                 break
+            case constants.webRtcSignaling.ANSWER:
+                webRtcHandler.handleWebRtcAnswer(data)
+                break
             default:
                 return
         }
