@@ -39,6 +39,11 @@ const createPeerConnection = () => {
         console.log("getting ice candidates from stun server");
         if (event.candidate) {
             // send our ice candidates to other peer
+            wss.sendDataUsingWebRtcSignaling({
+                connectedUserSocketId: connectedUserDetails.socketId,
+                type: constants.webRtcSignaling.ICE_CANDIDATE,
+                candidate: event.candidate
+            })
         }
     };
 
@@ -155,6 +160,20 @@ export const handleWebRtcAnswer = async (data) => {
     //caller - remote - answer 
     await peerConnection.setRemoteDescription(data.answer);
 };
+//video showing
+export const handleWebRtcCandidate = async (data) => {
+    console.log('handling incoming webRtc candidates')
+    try {
+        await peerConnection.addIceCandidate(data.candidate)
+    } catch (error) {
+        console.log('error occured when getting ice candidates', error)
+
+    }
+}
+
+
+
+
 const acceptCallHandler = () => {
     console.log('call-accepted')
     createPeerConnection()
