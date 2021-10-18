@@ -24,6 +24,9 @@ export const registerSocketEvents = (socket) => {
         webRtcHandler.handlePreOfferAnswer(data)
     })
 
+    socket.on('user-hanged-up', () => {
+        webRtcHandler.handleConnectedUserHangedUp()
+    })
     socket.on('webRtc-signaling', (data) => {
         switch (data.type) {
             case constants.webRtcSignaling.OFFER:
@@ -54,4 +57,8 @@ export const sendPreOfferAnswer = (data) => {
 export const sendDataUsingWebRtcSignaling = (data) => {
     console.log('webRtc signaling')
     socketIO.emit('webRtc-signaling', data)
+}
+
+export const sendUserHangedUp = (data) => {
+    socketIO.emit('user-hanged-up', data)
 }

@@ -272,3 +272,15 @@ const sendPreOfferAnswer = (preOfferAnswer) => {
     ui.removeAllDialogs()
     wss.sendPreOfferAnswer(data)
 }
+
+// hang up 
+export const handleHangUp = () => {
+    console.log(' finishing the call')
+    const data = {
+        connectedUserSocketId: connectedUserDetails.socketId
+    }
+    wss.sendUserHangedUp(data)
+}
+export const handleConnectedUserHangedUp = () => {
+    console.log('user has hanged up')
+}
