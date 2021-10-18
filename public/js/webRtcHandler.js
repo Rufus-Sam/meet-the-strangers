@@ -6,6 +6,7 @@ import * as store from './store.js'
 
 let connectedUserDetails
 let peerConnection
+let dataChannel
 const defaultConstraints = {
     audio: true,
     video: true,
@@ -34,6 +35,23 @@ export const getLocalPreview = () => {
 
 const createPeerConnection = () => {
     peerConnection = new RTCPeerConnection(configuration);
+    //chat data channel
+    dataChannel = peerConnection.createDataChannel('chat')
+
+    peerConnection.ondatachannel = (event) => {
+        const channel = event.channel
+
+        channel.onopen = () => {
+            console.log('channel has been opened,ready to receive messages')
+        }
+
+        channel.onmessage = (event) => {
+            console.log('message came')
+            const message = JSON.parse(event.data)
+            console.log(message)
+
+        }
+    }
 
     peerConnection.onicecandidate = (event) => {
         console.log("getting ice candidates from stun server");
@@ -224,7 +242,11 @@ export const switchBetweenCameraAndScreenSharing = async (screenSharingActive) =
     }
 };
 
-
+//chat data channel
+export const sendMessageUsingDataChannel = (message) => {
+    const stringifiedMessage = JSON.stringify(message)
+    dataChannel.send(stringifiedMessage)
+}
 
 
 const acceptCallHandler = () => {
