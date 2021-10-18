@@ -44,7 +44,6 @@ const downloadRecordedVideo = () => {
     a.download = "recording.webm";
     a.click();
     window.URL.revokeObjectURL(url);
-    recordedChunks.forEach((n) => n.remove())
 };
 
 const handleDataAvailable = (event) => {
