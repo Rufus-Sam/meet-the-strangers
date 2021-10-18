@@ -48,6 +48,7 @@ const createPeerConnection = () => {
         channel.onmessage = (event) => {
             console.log('message came')
             const message = JSON.parse(event.data)
+            ui.appendMessage(message)
             console.log(message)
 
         }
@@ -80,7 +81,7 @@ const createPeerConnection = () => {
         remoteStream.addTrack(event.track);
     };
 
-    // add our stream to peer connection
+    // add our video stream to peer connection
 
     if (connectedUserDetails.callType === constants.callType.VIDEO_PERSONAL_CODE) {
         const localStream = store.getState().localStream;

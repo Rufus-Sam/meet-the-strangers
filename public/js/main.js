@@ -67,6 +67,7 @@ newMessageInput.addEventListener('keydown', (event) => {
 
     if (key === 'Enter') {
         webRtcHandler.sendMessageUsingDataChannel(event.target.value)
+        ui.appendMessage(event.target.value, true)
         newMessageInput.value = ''
     }
 })
@@ -76,5 +77,6 @@ sendMessage.addEventListener('click', () => {
     console.log('change occured in message button')
     const message = newMessageInput.value
     webRtcHandler.sendMessageUsingDataChannel(message)
+    ui.appendMessage(message, true)
     newMessageInput.value = ''
 })
