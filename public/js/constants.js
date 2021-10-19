@@ -17,3 +17,9 @@ export const webRtcSignaling = {
     ANSWER: "ANSWER",
     ICE_CANDIDATE: "ICE_CANDIDATE",
 };
+
+export const callState = {
+    CALL_UNAVAILABLE: 'CALL_UNAVAILABLE',
+    CALL_AVAILABLE: 'CALL_AVAILABLE',
+    CALL_AVAILABLE_ONLY_CHAT: 'CALL_AVAILABLE_ONLY_CHAT'
+}

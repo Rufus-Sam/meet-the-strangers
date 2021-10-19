@@ -13,6 +13,14 @@ export const updateLocalVideo = (stream) => {
         localVideo.play();
     });
 };
+export const showVideoCallButtons = () => {
+    const personalCodeVideoButton = document.getElementById('personal_code_video_button')
+    const strangerVideoButton = document.getElementById('stranger_video_button')
+    showElement(personalCodeVideoButton)
+    showElement(strangerVideoButton)
+}
+
+
 export const updateRemoteVideo = (stream) => {
     const remoteVideo = document.getElementById('remote_video')
     remoteVideo.srcObject = stream
