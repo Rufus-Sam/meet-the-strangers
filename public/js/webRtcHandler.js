@@ -115,13 +115,13 @@ export const handlePreOffer = (data) => {
     console.log("preoffer got by calle")
     const { callType, callerSocketId } = data
 
+    if (!checkCallPossibility(callType)) {
+        return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE, callerSocketId)
+    }
+
     connectedUserDetails = {
         socketId: callerSocketId,
         callType
-    }
-
-    if (!checkCallPossibility(callType)) {
-        return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE)
     }
 
     store.setCallState(constants.callState.CALL_UNAVAILABLE)
@@ -271,15 +271,17 @@ const acceptCallHandler = () => {
 }
 const rejectCallHandler = () => {
     console.log('call-rejected')
+    setIncomingCallAvailability()
     sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED)
 }
 const callingDialogRejectCallHandler = () => {
     console.log('cancel the call')
 }
 
-const sendPreOfferAnswer = (preOfferAnswer) => {
+const sendPreOfferAnswer = (preOfferAnswer, callerSocketId = null) => {
+    const socketId = callerSocketId ? callerSocketId : connectedUserDetails.socketId
     const data = {
-        callerSocketId: connectedUserDetails.socketId,
+        callerSocketId: socketId,
         preOfferAnswer
     }
     ui.removeAllDialogs()
