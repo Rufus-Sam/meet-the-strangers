@@ -276,6 +276,11 @@ const rejectCallHandler = () => {
 }
 const callingDialogRejectCallHandler = () => {
     console.log('cancel the call')
+    const data = {
+        connectedUserSocketId: connectedUserDetails.socketId
+    }
+    closePeerConnectionAndResetState()
+    wss.sendUserHangedUp(data)
 }
 
 const sendPreOfferAnswer = (preOfferAnswer, callerSocketId = null) => {
