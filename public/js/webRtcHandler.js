@@ -106,6 +106,7 @@ export const sendPreOffer = (callType, calleePersonalCode) => {
         }
         console.log("preoffer sent by caller")
         ui.showCallingDialog(callingDialogRejectCallHandler)
+        store.setCallState(constants.callState.CALL_UNAVAILABLE)
         wss.sendPreOffer(data)
     }
 }
@@ -118,6 +119,13 @@ export const handlePreOffer = (data) => {
         socketId: callerSocketId,
         callType
     }
+
+    if (!checkCallPossibility(callType)) {
+        return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE)
+    }
+
+    store.setCallState(constants.callState.CALL_UNAVAILABLE)
+
     if (callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants.callType.VIDEO_PERSONAL_CODE) {
         ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler)
     }
@@ -129,14 +137,17 @@ export const handlePreOfferAnswer = (data) => {
     ui.removeAllDialogs()
 
     if (preOfferAnswer === constants.preOfferAnswer.CALLEE_NOT_FOUND) {
+        setIncomingCallAvailability()
         ui.showInfoDialog(preOfferAnswer)
         //show dialog that callee was not found
     }
     if (preOfferAnswer === constants.preOfferAnswer.CALL_UNAVAILABLE) {
+        setIncomingCallAvailability()
         ui.showInfoDialog(preOfferAnswer)
         //show dialog that callee is busy
     }
     if (preOfferAnswer === constants.preOfferAnswer.CALL_REJECTED) {
+        setIncomingCallAvailability()
         ui.showInfoDialog(preOfferAnswer)
         //show dialog that callee rejecte the call
     }
@@ -302,5 +313,29 @@ const closePeerConnectionAndResetState = () => {
         store.getState().localStream.getVideoTracks()[0].enabled = true
     }
     ui.updateAfterHangUp(connectedUserDetails.callType)
+    setIncomingCallAvailability()
     connectedUserDetails = null
+}
+
+//check call possibility
+const checkCallPossibility = (callType) => {
+    const callState = store.getState().callState
+    if (callState === constants.callState.CALL_AVAILABLE) {
+        return true
+    }
+    if ((callState === constants.callState.CALL_AVAILABLE_ONLY_CHAT) &&
+        (callType === constants.callType.VIDEO_PERSONAL_CODE || callType === constants.callType.VIDEO_STRANGER)) {
+        return false
+    }
+    return false
+}
+
+//set our state for calls
+const setIncomingCallAvailability = () => {
+    const localStream = store.getState().localStream
+    if (localStream) {
+        store.setCallState(constants.callState.CALL_AVAILABLE)
+    } else {
+        store.setCallState(constants.callState.CALL_AVAILABLE_ONLY_CHAT)
+    }
 }
