@@ -200,6 +200,16 @@ export const updateAfterHangUp = (callType) => {
     removeAllDialogs()
 
 }
+// changingg status of checkbox
+export const updateStrangerCheckbox = (allowConnection) => {
+    const checkboxCheckImg = document.getElementById('allow_strangers_checkbox_image')
+    if (allowConnection) {
+        showElement(checkboxCheckImg)
+    } else {
+        hideElement(checkboxCheckImg)
+    }
+}
+
 
 
 //ui helper functions

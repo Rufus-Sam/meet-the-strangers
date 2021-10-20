@@ -62,3 +62,7 @@ export const sendDataUsingWebRtcSignaling = (data) => {
 export const sendUserHangedUp = (data) => {
     socketIO.emit('user-hanged-up', data)
 }
+
+export const getStrangerSocketId = () => {
+    socketIO.emit('get-stranger-socket-id')
+}
