@@ -2,6 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 const http = require('http')
+const { SocketAddress } = require('net')
 const PORT = process.env.PORT || 3000
 const app = express()
 const server = http.createServer(app)
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 let connectedPeers = []
-
+let connectedPeerStrangers = []
 //io.on() is an event listener on server, socket.on() is event listener on client 
 io.on('connection', (socket) => {
     connectedPeers.push(socket.id);
@@ -74,6 +75,30 @@ io.on('connection', (socket) => {
         }
     })
 
+    socket.on('stranger-connection-status', (data) => {
+        const { status } = data
+        if (status) {
+            connectedPeerStrangers.push(socket.id)
+        } else {
+            const newConnectedPeerStrangers = connectedPeerStrangers.filter((x) => x !== socket.id)
+            connectedPeerStrangers = newConnectedPeerStrangers
+        }
+        console.log(connectedPeerStrangers)
+    })
+    socket.on('get-stranger-socket-id', () => {
+        let randomStrangerSocketId
+        const filteredConnectedPeerSocketId = connectedPeerStrangers.filter((x) => x !== socket.id)
+
+        if (filteredConnectedPeerSocketId.length > 0) {
+            randomStrangerSocketId = filteredConnectedPeerSocketId[
+                Math.floor(Math.random() * filteredConnectedPeerSocketId.length)
+            ]
+        } else {
+            randomStrangerSocketId = null
+        }
+        const data = { randomStrangerSocketId }
+        io.to(socket.id).emit("stranger-socket-id", data)
+    })
 
     socket.on('disconnect', () => {
         console.log("user disconnected")

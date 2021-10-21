@@ -121,10 +121,14 @@ hangUpChatButton.addEventListener('click', () => {
 })
 //strangers
 const strangerChatButton = document.getElementById('stranger_chat_button')
-strangerChatButton.addEventListener('click', () => { })
+strangerChatButton.addEventListener('click', () => {
+    strangerUtils.getStrangerSocketIdAndConnect(constants.callType.CHAT_STRANGER)
+})
 
 const strangerVideoButton = document.getElementById('stranger_video_button')
-strangerVideoButton.addEventListener('click', () => { })
+strangerVideoButton.addEventListener('click', () => {
+    strangerUtils.getStrangerSocketIdAndConnect(constants.callType.VIDEO_STRANGER)
+})
 
 //register event to allow connection from strangers
 const checkbox = document.getElementById('allow_strangers_checkbox')
