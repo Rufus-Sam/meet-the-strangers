@@ -51,6 +51,20 @@ export const removeAllDialogs = () => {
     const dialog = document.getElementById('dialog')
     dialog.querySelectorAll('*').forEach((x) => x.remove())
 }
+//show no stranger available dialog
+export const showNoStrangerAvailableDialog = () => {
+    const infoDialog = elements.getInfoDialog('No stranger available', 'Please try again later')
+    if (infoDialog) {
+        //remove all dialogs inside html element
+        const dialog = document.getElementById('dialog')
+        dialog.querySelectorAll('*').forEach((x) => x.remove())
+        //save the incomingCallDialog 
+        dialog.appendChild(infoDialog)
+        setTimeout(() => {
+            removeAllDialogs()
+        }, [3000])
+    }
+}
 
 export const showInfoDialog = (preOfferAnswer) => {
     let infoDialog = null
@@ -76,10 +90,10 @@ export const showInfoDialog = (preOfferAnswer) => {
     }
 }
 export const showCallElements = (callType) => {
-    if (callType === constants.callType.CHAT_PERSONAL_CODE) {
+    if (callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants.callType.CHAT_STRANGER) {
         showChatCallElements()
     }
-    if (callType === constants.callType.VIDEO_PERSONAL_CODE) {
+    if (callType === constants.callType.VIDEO_PERSONAL_CODE || callType === constants.callType.VIDEO_STRANGER) {
         showVideoCallElements()
     }
 }
