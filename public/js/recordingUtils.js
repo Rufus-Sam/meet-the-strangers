@@ -31,6 +31,13 @@ export const stopRecording = () => {
     mediaRecorder.stop();
 };
 
+const handleDataAvailable = (event) => {
+    if (event.data.size > 0) {
+        recordedChunks.push(event.data);
+        downloadRecordedVideo();
+    }
+};
+
 const downloadRecordedVideo = () => {
     const blob = new Blob(recordedChunks, {
         type: "video/webm",
@@ -45,22 +52,3 @@ const downloadRecordedVideo = () => {
     a.click();
     window.URL.revokeObjectURL(url);
 };
-
-const handleDataAvailable = (event) => {
-    if (event.data.size > 0) {
-        recordedChunks.push(event.data);
-        downloadRecordedVideo();
-    }
-};
-
-const pauseRecordingButton = document.getElementById("pause_recording_button");
-pauseRecordingButton.addEventListener("click", () => {
-    recordingUtils.pauseRecording();
-    ui.switchRecordingButtons(true);
-});
-
-const resumeRecordingButton = document.getElementById("resume_recording_button");
-resumeRecordingButton.addEventListener("click", () => {
-    recordingUtils.resumeRecording();
-    ui.switchRecordingButtons();
-});

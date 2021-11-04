@@ -81,6 +81,7 @@ const createPeerConnection = () => {
 
     peerConnection.ontrack = (event) => {
         remoteStream.addTrack(event.track);
+        console.log('receiving tracks')
     };
 
     // add our video stream to peer connection
@@ -92,6 +93,7 @@ const createPeerConnection = () => {
 
         for (const track of localStream.getTracks()) {
             peerConnection.addTrack(track, localStream);
+            console.log('adding tracks')
         }
     }
 };
