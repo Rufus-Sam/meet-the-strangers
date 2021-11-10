@@ -5,11 +5,20 @@ import * as constants from './constants.js'
 import * as ui from './ui.js'
 import * as recordingUtils from "./recordingUtils.js";
 import * as strangerUtils from './strangerUtils.js'
-
+import * as turn from './turn.js'
 //initialization of socketIO connection
 const socket = io("/")
 wss.registerSocketEvents(socket)
-
+//get turn servers
+axios.get('/api/turn-api').then(
+    responseData => {
+        turn.setTurnServers(responseData.data.token.iceServers)
+        console.log(responseData.data.token.iceServers)
+    }
+).catch(err => {
+    console.log(err)
+})
+//get local stream
 webRtcHandler.getLocalPreview();
 
 

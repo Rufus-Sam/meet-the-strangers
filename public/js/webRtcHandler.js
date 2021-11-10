@@ -2,6 +2,7 @@ import * as wss from './wss.js'
 import * as constants from './constants.js'
 import * as ui from './ui.js'
 import * as store from './store.js'
+import * as turn from './turn.js'
 
 
 let connectedUserDetails
@@ -12,13 +13,7 @@ const defaultConstraints = {
     video: true,
 }
 
-const configuration = {
-    iceServers: [
-        {
-            urls: "stun:stun.l.google.com:13902",
-        },
-    ],
-}
+
 
 export const getLocalPreview = () => {
     navigator.mediaDevices
@@ -36,6 +31,11 @@ export const getLocalPreview = () => {
 };
 
 const createPeerConnection = () => {
+    const turnServers = turn.getTurnServers()
+    const configuration = {
+        iceServers: [...turnServers, { url: "stun:stun.1und1.de:3478" }],
+        iceTransportPolicy: 'relay'
+    }
     peerConnection = new RTCPeerConnection(configuration);
     //chat data channel
     dataChannel = peerConnection.createDataChannel('chat')

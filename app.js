@@ -1,18 +1,30 @@
+const twilio = require('twilio')
+const cors = require('cors')
 const express = require('express')
 const dotenv = require('dotenv')
 dotenv.config()
 const http = require('http')
-const { SocketAddress } = require('net')
 const PORT = process.env.PORT || 3000
 const app = express()
 const server = http.createServer(app)
-const io = require('socket.io')(server)
+const io = require('socket.io')(server, {
+    cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+    }
+})
 
-
+app.use(cors())
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html')
+})
+app.get('/api/turn-api', (req, res) => {
+    const accountSid = 'AC70b576650d89afb6d56c42ce21d651f3'
+    const authToken = `${process.env.AUTHTOKEN}`
+    const client = twilio(accountSid, authToken)
+    client.tokens.create().then((token) => res.send({ token }))
 })
 
 let connectedPeers = []
