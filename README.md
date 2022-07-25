@@ -1,4 +1,10 @@
 # meet-the-strangers
+Built using 
+-SocketIO, ExpressJS, NodeJS (for backend).
+-HTML, CSS, JavaScript (for frontend).
+
+
+Use the application : https://group-5-dcn.herokuapp.com/
 ## How to use the Application
 1) Copy paste the below given link in two different tabs.
 2) Then copy and paste the "Your Personal Code" from tab-1 and paste in the "Personal code" text box of tab-2.
