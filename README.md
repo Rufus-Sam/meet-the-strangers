@@ -1,4 +1,6 @@
 # meet-the-strangers
+![image](https://user-images.githubusercontent.com/68532159/181035825-ac3152bc-9c6b-497e-9d0d-de25fa2c574b.png)
+
 Built using 
 -SocketIO, ExpressJS, NodeJS (for backend).
 -HTML, CSS, JavaScript (for frontend).
